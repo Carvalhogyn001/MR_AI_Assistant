@@ -11,16 +11,15 @@ Owner direction, 2026-10-29: a future system on the PC should select different f
 
 ## Planned components
 
-```mermaid
-flowchart LR
-  UI[PC manager UI] --> Host[Local host service]
-  Host --> USB[USB device client]
-  USB --> Device[ESP32 face and hardware state]
-  Host --> Profiles[Face/profile catalog]
-  Host --> Providers[AI provider adapters]
-  Providers --> Remote[Selected remote API]
-  Providers --> Local[Optional local host model]
-  Muse[Muse SDK evaluation] --> Device
+```text
+PC manager UI → Local host service
+Local host service → USB device client
+USB device client → ESP32 face and hardware state
+Local host service → Face/profile catalog
+Local host service → AI provider adapters
+AI provider adapters → Selected remote API
+AI provider adapters → Optional local host model
+Muse SDK evaluation → ESP32 face and hardware state
 ```
 
 The first graphical version should run locally and show detected device, firmware version, current face, actual capabilities and errors. It should offer the three supported faces, expressions and brightness, with a preview generated from the same design parameters. A selected provider is distinct from a connected/working provider; a physically inserted card/speaker is distinct from a mounted/working peripheral.

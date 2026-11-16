@@ -3,7 +3,7 @@
 ### Owner photos and green talk button, 2026-11-13
 
 | Part | Interface and electrical status | Evidence |
-| --- | --- | --- |
+| - | - | - |
 | Green push button, exact model unknown | Four metal terminals are visible. Use it with the Waveshare's 3.3 V active-low IO16 input after verifying two contact groups and momentary normally open operation with a meter. No external voltage or resistor is required for the input. | Owner selected this part. Side view · Terminal view |
 | Freenove ESP32 WROVER and GPIO Extension Board | Camera ribbon, LCD leads, two lit LEDs and other components are visible. Rail voltage, rail continuity, power direction and individual nets were not measured. Keep its rails separate from the Waveshare. | Bench photo · Photo with AA holder |
 | 2× AA holder with two installed cells | Two leads appear to feed the pictured breadboard rails through jumpers. Holder wiring, polarity, cell chemistry, voltage under load and suitable 5 V regulator/USB source remain unverified. | Photo with AA holder |
@@ -26,7 +26,7 @@ The second photo batch shows a Freenove audio converter/amplifier, a ULN2003AN s
 **Planning record only: no external LED or battery connection is accepted.** The new owner photo is preserved unchanged as `assets/reference-images/freenove-lcd-breadboard-led-2026-11-06.jpg`, with its SHA-256 and origin in the adjacent provenance JSON. It shows a yellow-looking LED package and a resistor beside the Freenove breadboard. Their part numbers, electrical polarity, LED forward voltage/current rating, resistor value/tolerance and complete connectivity are **unknown**. The owner reports using the kit LEDs shown in the retained assets. The kit illustration labels separate two-leg green/red LEDs and 220 Ω, 1 kΩ and 10 kΩ resistors. This establishes the intended kit component class; the new photo does not identify or measure a green/red pair.
 
 | Proposed part / function | Candidate interface and voltage | Evidence / conditions before use |
-| --- | --- | --- |
+| - | - | - |
 | Green question-capture indicator | Candidate **Waveshare GPIO17 / IO17**, active-high 3.3 V output → its own series resistor → LED anode; cathode → Waveshare GND | Reserved for a disabled-by-default software option only. Actual standard/non-GPS board and free IO17 must be verified; LED model/polarity/current and resistor must be recorded before enabling or connecting. Green means actual question capture, never ambient wake monitoring or a bare button press. |
 | Red speaker-playback indicator | Candidate **Waveshare GPIO18 / IO18**, active-high 3.3 V output → its own series resistor → LED anode; cathode → Waveshare GND | Same conditions. Red means active reply playback after output setup, never thinking/receiving. Normal firmware must not configure/write either candidate pin. |
 | Prepared resistor choice | **Two nominal 1 kΩ kit resistors**, one per 3.3 V LED branch | Project low-current preparation choice, not an accepted assembly or measured value. Official Freenove external-LED example uses 220 Ω; the larger 1 kΩ lowers current. Confirm each actual resistance/tolerance and LED polarity/rating before connection. At exactly 3.3 V / 1 kΩ, the zero-forward-drop upper bound is 3.3 mA; this is a calculation, not a current measurement. |
@@ -53,7 +53,7 @@ Updated 2026-10-30. **Specification** = published evidence; **reported** = owner
 ## Primary target: Waveshare ESP32-S3-Touch-AMOLED-1.75
 
 | Item / model | Interface and voltage | Evidence and status |
-| --- | --- | --- |
+| - | - | - |
 | ESP32-S3-Touch-AMOLED-1.75 | USB-C, standard USB 5 V power; GPIO 3.3 V logic | Owner's Amazon ASIN B0F7XTJ1ZL and supplied illustrations; primary target selected. Owner confirms no case. USB probe and running factory boot identify non-C 1.75; exact PCB revision/GPS fitment remain unknown. **Not 1.75C.** |
 | ESP32-S3R8 | Dual-core Xtensa LX7 up to 240 MHz; 512 KB SRAM, 384 KB ROM; 8 MB octal PSRAM; external 16 MB flash | [Manufacturer overview](https://docs.waveshare.com/ESP32-S3-Touch-AMOLED-1.75) and pinned BSP. USB esptool confirms ESP32-S3 rev0.2 with embedded 8 MB PSRAM and 16 MB flash; factory startup reports 8 MB PSRAM at 80 MHz and a passing SRAM test. SRAM/ROM totals and maximum CPU clock remain manufacturer specifications. |
 | CO5300 display | 1.75-inch round AMOLED, 466 × 466, QSPI, advertised 16.7M colors; internal supply | Manufacturer specification. Brightness uses panel commands; no LED backlight GPIO. |
@@ -76,7 +76,7 @@ Evidence: `assets/sources/2026-10-29/waveshare-hardware-reference.md`, `waveshar
 These are **internal PCB connections**, not jumper instructions. All GPIO logic is 3.3 V. Only USB is used in the initial diagnostic. Applies to **1.75**, not **1.75C**.
 
 | Function | GPIO(s) / connection | Constraint |
-| --- | --- | --- |
+| - | - | - |
 | Native USB | D−19, D+20 | Reserved for USB data/flashing. |
 | BOOT | 0, active low | Boot strap; diagnostic does not configure it. |
 | Shared I2C | SDA15, SCL14 | Initialize once; onboard devices share bus. |
@@ -96,7 +96,7 @@ These are **internal PCB connections**, not jumper instructions. All GPIO logic 
 **Resolved source conflict:** legacy Arduino `pin_config.h` declares audio MCLK16 as well as MCLK42 in another section. Maintained BSP, hardware reference and Muse's non-C driver use **42**. GPIO16 remains expansion GPIO; do not build an audio driver from the conflicting old macro.
 
 | H2 schematic pin | Signal |
-| --- | --- |
+| - | - |
 | 1 | VBUS, USB power rail; never GPIO |
 | 2 | GND |
 | 3 | 3V3 |
@@ -121,7 +121,7 @@ Standard SKU31261; `-B` case SKU31262; `-G` LC76G GNSS SKU31264. A pictured GPS 
 ## Existing Freenove equipment — earlier evidence retained
 
 | Item | Interface / voltage | Evidence and status |
-| --- | --- | --- |
+| - | - | - |
 | Freenove ESP32 Wrover / WROVER E | USB-C data via CH340; 3.3 V GPIO | The board close-up shows the USB-C receptacle. Earlier photos/probe: ESP32 D0WD V3, 4 MB flash. Existing camera firmware build reproduced 2026-10-29. Secondary camera role. |
 | Fitted camera | Parallel camera + SCCB on board connector | Prior sensor PID `0x009B`; RGB565 with software JPEG conversion, browser live stream visually confirmed at `http://192.168.4.1`. Commercial sensor model still unconfirmed. |
 | QAPASS 1602A V1.4 / PCF8574T | I2C `0x27`, SDA33/SCL13, tested at 3.3 V | Interface/backlight verified; character area blank. Panel voltage/mapping unresolved. No contrast potentiometer. Old GPIO21/22 bus superseded. |

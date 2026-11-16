@@ -17,7 +17,7 @@ This source snapshot includes the firmware, host backend, Control Room and setup
 - [Talk button, camera and display drawings](docs/BREADBOARD-CAMERA-DISPLAYS.md)
 - [Two-AA power plan and green/red status LEDs](docs/POWER-AND-STATUS-LEDS.md)
 
-## Current state — 2026-11-14
+## Current state - 2026-11-14
 
 **Face Lab 0.10.0** adds swipe navigation through Face, Settings, Device Status and Gallery. The browser keeps typed chat and generated PNGs locally. Control Room has a tall conversation pane and a Three.js pixel companion with orbit controls and an exploded view. Z-Image Turbo can send a preview to Gallery over USB. The Waveshare still has Muse and Face Lab side by side. Switch with **Providers → Save & apply**. [Web interface](docs/CONTROL-ROOM-DESIGN.md) · [Device interface](docs/DEVICE-INTERFACE.md) · [November 14 audit](docs/SYSTEM-AUDIT-2026-11-14.md)
 
@@ -30,7 +30,7 @@ Gemini voice arms automatically with Control Room running and the Waveshare conn
 From this folder, start/open the external default browser with:
 
 ```sh
-~/.platformio/penv/bin/python tools/manager.py --open
+~/.platformio/penv/bin/python tools/manager.py -o
 ```
 
 The local URL is http://127.0.0.1:18765/. Existing verified service is reused. See [API setup](docs/API-HOST-SETUP.md) and [Muse build/provisioning guide](firmware/muse-evaluation/README.md).
@@ -40,7 +40,7 @@ Muse inference runs remotely over Wi-Fi, not as an on-device language model. Aft
 ## Project map
 
 | Path | Purpose |
-| --- | --- |
+| - | - |
 | `firmware/` | Existing Freenove camera firmware |
 | `firmware/waveshare-bringup/` | Separate Waveshare USB/memory diagnostic |
 | `firmware/assistant/` | Independent Face Lab application and recovery baseline |
@@ -54,4 +54,4 @@ Muse inference runs remotely over Wi-Fi, not as an on-device language model. Aft
 
 Read [AGENTS.md](AGENTS.md) before changing hardware or firmware. Never wire 5 V logic to an ESP32 GPIO or embed a production OpenRouter key in firmware.
 
-New boundaries: [PC manager plan](docs/DEVICE-MANAGER-PLAN.md), [USB controls](protocol/README.md), [AI provider foundation](backend/README.md), [firmware trust](docs/FIRMWARE-TRUST.md). Initial PC control: `~/.platformio/penv/bin/python tools/device.py status`; replace `status` with `face orbit`, `expression happy`, `brightness 80`, `card`, `tone`, `mic`, `mic-arm`, or `mic-cancel`. Use `--port PORT` before the command if more than one device is connected.
+New boundaries: [PC manager plan](docs/DEVICE-MANAGER-PLAN.md), [USB controls](protocol/README.md), [AI provider foundation](backend/README.md), [firmware trust](docs/FIRMWARE-TRUST.md). Initial PC control: `~/.platformio/penv/bin/python tools/device.py status`; replace `status` with `face orbit`, `expression happy`, `brightness 80`, `card`, `tone`, `mic`, `mic-arm`, or `mic-cancel`. Use `-p PORT` before the command if more than one device is connected.

@@ -11,7 +11,7 @@ New follow-up: the [latest owner photo and AA/status-LED plan](POWER-AND-STATUS-
 
 
 | Job | Image to use | What it establishes |
-| --- | --- | --- |
+| - | - | - |
 | Round Waveshare screen, USB and talk header | Waveshare rear / speaker | Clear product-reference view of USB-C, SPK, BAT and the H2 signal labels. Verify those labels on your actual board. |
 | Other ESP32 and its USB port | Freenove board close-up | WROVER-E marking, USB-C receptacle and extension board. |
 | Camera and fitted ribbon | Camera / pin-label close-up | Existing white latch and orange camera ribbon. Leave it seated. |
@@ -45,7 +45,7 @@ Physical acceptance requires observing a deliberate switch press, an increasing 
 Zoomable SVG · Editable wiring Canvas
 
 | Part | Connection now | Verification boundary |
-| --- | --- | --- |
+| - | - | - |
 | Round Waveshare | USB-C data/power → Mac; supplied keyed speaker → **SPK** while unpowered. Panel and microphones are built in. | Current face/voice route is recorded in [project status](PROJECT-STATUS.md). BAT is not a speaker socket. Leave unverified batteries disconnected. |
 | Freenove Wrover with camera | Separate USB-C data/power → Mac for bring-up. Keep fitted camera ribbon in its own latch. | Earlier camera preview and `/capture.jpg` worked on its access point. No new connection or live camera test is claimed here. |
 | Between the boards | No jumper bundle is needed for this plan. Keep header power rails separate. | The proposed authenticated Wi-Fi still-image route goes from Freenove to the Mac; it is not implemented by this drawing. |
@@ -57,7 +57,7 @@ For a future combined Gemini camera turn, the Mac should request one authenticat
 If “new screen” means the round Waveshare, section 3 is the connection plan. If it means the rectangular LCD or matrix in the kit, those parts need the checks below before a complete wiring diagram can be verified.
 
 | Part | Known evidence | Required next measurement |
-| --- | --- | --- |
+| - | - | - |
 | QAPASS 1602A V1.4 / PCF8574T | I²C answered at `0x27` with Freenove **GPIO33 SDA / GPIO13 SCL**, tested at 3.3 V. Characters stayed blank. | Confirm panel supply, contrast arrangement, expander mapping and idle SDA/SCL voltage. The pictured module has no user contrast potentiometer. |
 | Bare 8 × 8 LED matrix | Photo shows the bare matrix and two SN74HC595s nearby. This does not establish a completed driver circuit. | Read actual part marking; measure row/column map and polarity; specify resistors, per-LED current and a suitable driver before pin assignment. |
 | Single-digit, four-digit and bar-graph displays | Separate loose LED packages are visible on the breadboard. | Identify each package and current limits before adding wiring. |
@@ -71,14 +71,6 @@ The owner selected the existing two-AA holder. The [power/status-LED guide](POWE
 ## Editable files and verification
 
 The Obsidian project hub links the mirrored PNG/SVG drawings, **MR. Robot Wiring.canvas** and **MR. Robot Talk Button.excalidraw**. The engineering folder remains the source of truth. Original asset photos are unchanged; the generated diagrams embed copies for portability.
-
-Regenerate only these guides, leaving earlier screen concepts untouched:
-
-```sh
-python3 tools/build_visual_guides.py --wiring-only
-# macOS: also render PNGs using Quick Look and sips
-python3 tools/build_visual_guides.py --wiring-only --render
-```
 
 Document verification: inspect all three full-frame PNG exports, parse SVG XML and Canvas/Excalidraw JSON, and check referenced image paths. Hardware verification remains the continuity/press/cancel sequence above; no wiring, new voltage measurement or camera test was performed to create these drawings.
 

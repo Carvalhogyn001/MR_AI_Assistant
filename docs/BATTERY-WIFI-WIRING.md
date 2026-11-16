@@ -12,7 +12,7 @@ The round **Waveshare ESP32-S3-Touch-AMOLED-1.75** is Mr. Robot. The **Freenove 
 4. Connect Waveshare USB-C to the Mac with the data cable. The supplied keyed speaker stays at **SPK** and the microphones are onboard. In [Control Room](http://127.0.0.1:18765/), connect the device and enable **Tap-to-talk** once. Press and release the physical button, speak at **LISTENING**, then confirm a reply. On a second turn, press again to check cancel. The Device diagnostics counter `talk_button_presses` should advance. Use Control Room as the sole USB client during the test. [Voice setup](GEMINI-VOICE.md)
 
 | From | To | Carries |
-| --- | --- | --- |
+| - | - | - |
 | Round Waveshare H2 IO16 | Isolated strip at B10 → switch group A at E10 | 3.3 V logic input |
 | Round Waveshare H2 GND | Isolated strip at I10 → switch group B at F10 | Switch return |
 | Round Waveshare SPK | Supplied keyed speaker plug, if already fitted leave it there | Speaker output |

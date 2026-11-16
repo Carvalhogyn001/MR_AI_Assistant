@@ -6,7 +6,7 @@ Current status, 2026-11-14: Muse and Face Lab are installed in separate app slot
 
 The Muse bootloader reads its table at `0x10000`. Muse stays at `0x20000` and keeps its paired NVS at `0x11000`. Face Lab sits at `0x420000`. Its Arduino libraries read the [Face Lab partition map](face-lab-partitions.csv) flashed at `0x8000`, with separate NVS at `0x9000` and shared OTA selection data at `0x1D000`. The existing bootloader and Muse table were retained. [The boot-selection patch](dual-boot.patch) and Face Lab console command use the SDK's OTA validation before switching.
 
-For a rebuild on this layout, build Muse with `tools/muse.py build` and Face Lab with `pio run -d firmware/assistant`. Use the pinned IDF's `components/partition_table/gen_esp32part.py --offset 0x8000` to turn the Face Lab CSV into a binary table. Sign Face Lab with `python -m espsecure sign-data --version 2 --keyfile external/muse-gadget-sdk/esp32/dev_signing_key.pem --output FACE_SIGNED FACE_BIN` and verify the signature with `espsecure verify-signature`. On the already configured board, write the changed app to its slot without flashing OTA initialization or erasing NVS. A normal Face Lab PlatformIO upload uses the standalone layout and overwrites the shared setup.
+For a rebuild on this layout, build Muse with `tools/muse.py build` and Face Lab with `pio run -d firmware/assistant`. Use the pinned IDF's partition table generator to convert the Face Lab CSV with partition table offset `0x8000`. Use Espressif's `espsecure sign-data` with Secure Boot version 2 and your local development signing key, then verify the output with `espsecure verify-signature`. On the already configured board, write the changed app to its slot without flashing OTA initialization or erasing NVS. A normal Face Lab PlatformIO upload uses the standalone layout and overwrites the shared setup.
 
 Separate ESP-IDF application for the **Waveshare ESP32-S3-Touch-AMOLED-1.75 non-C**, not an Arduino Face Lab provider plugin. Owner selected Muse again on 2026-10-30 to prioritize spoken interaction. SDK pin: `1b894f551e64416e2844452ec6056ec56d6a10f1`; ESP-IDF v6.0.1: `8c19b156084a0753687347cca1f5355782893533`.
 
@@ -14,10 +14,10 @@ From the project root:
 
 ```sh
 ~/.platformio/penv/bin/python tools/muse.py build
-~/.platformio/penv/bin/python tools/muse.py flash --port PORT
-~/.platformio/penv/bin/python tools/muse.py provision --port PORT
-~/.platformio/penv/bin/python tools/muse.py status --port PORT
-~/.platformio/penv/bin/python tools/muse.py watch --port PORT --seconds 180
+~/.platformio/penv/bin/python tools/muse.py -p PORT flash
+~/.platformio/penv/bin/python tools/muse.py -p PORT provision
+~/.platformio/penv/bin/python tools/muse.py -p PORT status
+~/.platformio/penv/bin/python tools/muse.py -p PORT -s 180 watch
 ```
 
 The compiler/runtime is isolated in ignored `external/esp-idf-tools/`. On this Mac, add `external/esp-idf-tools/python312/bin` to PATH before invoking the wrapper to select the restored Python 3.12 runtime. Build files are in `external/muse-gadget-sdk/esp32/build-mr-robot-s3n/`. The wrapper checks source pins, applies [the IO16 patch](io16-talk.patch), and validates the non-C target, voice settings and empty compiled credentials. The original component lock is retained in `dependencies.lock.reference`. SDK defaults, Muse UI, non-C board and the local overlay load in that order.

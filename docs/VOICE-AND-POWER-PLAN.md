@@ -5,7 +5,7 @@ Updated 2026-11-06. Installed Face Lab 0.9.3 gives the owner “Hey Mr. Robot”
 ## Two voice routes
 
 | Route | Board responsibilities | Other requirements | Acceptance |
-| --- | --- | --- | --- |
+| - | - | - | - |
 | Muse evaluation (deferred) | SDK UI, microphone/speaker, BLE setup and Wi-Fi | Muse account/token, phone enrollment, Internet | Build/boot/token/Wi-Fi verified; final discovery retry failed. Not currently installed. |
 | Our Gemini application (active) | Face, visible wake/capture states, pause-based turn and bounded PCM playback | USB-connected Mac for wake detection and Gemini | Owner confirms clear speech in 0.8.0. USB counters verify one hands-free reply in 0.9.2. Physical switch and repeated wake turns remain to be checked. |
 
@@ -34,7 +34,7 @@ The local overlay disables OTA, LAN tunnelling and remote BLE commands. No secur
 The retained kit illustrations explicitly show a **2× AA holder**, small/large pushbuttons, slide switches, jumper wires, breadboard and 10 kΩ resistors. The owner now chooses the existing holder and two AA cells for portable-power planning. Mac USB remains the working voice route while the missing power stage is identified. Chemistry, actual wiring/polarity and loaded voltage remain unknown. The pictured black USB item is labelled **card reader**. No suitable voltage converter is identified in these images. Evidence: `assets/reference-images/kit-parts-list-a.jpg`, `kit-parts-list-b.jpg`, `kit-overview.jpg`; illustrations are not measurements of actual parts.
 
 | Choice | Required checks |
-| --- | --- |
+| - | - |
 | **Requested: 2× AA → regulated converter → proper USB source interface → USB-C lead** | Cell chemistry/model, holder polarity and voltage range remain unknown. Identify and review a regulated 5 V converter/source interface against measured display/audio peak demand before use. No compatible converter is established yet. |
 | Alternative: USB power bank → USB-C lead | Verify regulated USB output, display/audio demand and idle auto-shutoff. Not the selected hardware. |
 | Alternative without a USB power lead: protected 1S lithium cell → BAT | A different battery from the AA holder. Verify exact cell/protection, connector pitch and polarity, charge voltage/current, capacity and actual AXP2101 configuration before connecting. Matching plugs do not establish matching polarity. |
@@ -57,9 +57,9 @@ The new status-LED concept reserves IO17 for green question capture and IO18 for
 
 ```sh
 cd /path/to/MR_AI_Assistant
-~/.platformio/penv/bin/python tools/manager.py --open
+~/.platformio/penv/bin/python tools/manager.py -o
 ```
 
-`--open` opens and unlocks http://127.0.0.1:18765/ in the Mac's default browser. Keep the new server's Terminal process open; Ctrl+C stops it. An existing verified service is reused. The bare URL alone does not unlock it. Face Lab's USB manager/Gemini path does not control Muse firmware.
+`-o` opens and unlocks http://127.0.0.1:18765/ in the Mac's default browser. Keep the new server's Terminal process open; Ctrl+C stops it. An existing verified service is reused. The bare URL alone does not unlock it. Face Lab's USB manager/Gemini path does not control Muse firmware.
 
 The active voice route uses **Gemini 3.8 Live** with Charon over the Mac's authenticated host service. Text-model selection and the Live audio route are separate settings. Current behavior and acceptance are recorded in the [Gemini voice guide](GEMINI-VOICE.md); battery planning does not change that USB transport.

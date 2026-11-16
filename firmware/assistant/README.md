@@ -11,7 +11,7 @@ The custom Waveshare application lives here. The verified USB/memory diagnostic 
 ## Responsibilities
 
 | Module | Responsibility |
-| --- | --- |
+| - | - |
 | `include/board_pins.h` | Documented non-C display, touch, card and speaker assignments |
 | `include/app_state.h` | Face/expression/brightness state, independent of transport/provider |
 | `src/control_protocol.cpp` | Bounded, validated USB commands; no Arduino dependencies |
@@ -41,16 +41,16 @@ python3 firmware/assistant/tests/preview_display.py
 ~/.platformio/penv/bin/python tools/test_device.py
 pio run -d firmware/assistant
 # Standalone boards only. For the current dual-boot board, see ../muse-evaluation/README.md.
-pio run -d firmware/assistant -t upload --upload-port PORT
-~/.platformio/penv/bin/python tools/device.py --port PORT status
-~/.platformio/penv/bin/python tools/device.py --port PORT face orbit
-~/.platformio/penv/bin/python tools/device.py --port PORT expression happy
-~/.platformio/penv/bin/python tools/device.py --port PORT brightness 80
-~/.platformio/penv/bin/python tools/device.py --port PORT card
-~/.platformio/penv/bin/python tools/device.py --port PORT tone
-~/.platformio/penv/bin/python tools/device.py --port PORT mic-arm
+PLATFORMIO_UPLOAD_PORT=PORT pio run -d firmware/assistant -t upload
+~/.platformio/penv/bin/python tools/device.py -p PORT status
+~/.platformio/penv/bin/python tools/device.py -p PORT face orbit
+~/.platformio/penv/bin/python tools/device.py -p PORT expression happy
+~/.platformio/penv/bin/python tools/device.py -p PORT brightness 80
+~/.platformio/penv/bin/python tools/device.py -p PORT card
+~/.platformio/penv/bin/python tools/device.py -p PORT tone
+~/.platformio/penv/bin/python tools/device.py -p PORT mic-arm
 # Tap once when MIC TEST READY appears; speak during the red indicator.
-~/.platformio/penv/bin/python tools/device.py --port PORT mic-cancel
+~/.platformio/penv/bin/python tools/device.py -p PORT mic-cancel
 ```
 
 Run from the project root. Use a currently enumerated, positively identified PORT. Full factory backup already exists privately; never overwrite it during development.

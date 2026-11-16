@@ -7,10 +7,10 @@ Updated 2026-11-06. Gemini is the current laptop route for text and voice; Muse 
 From the project root, using the existing PlatformIO Python environment:
 
 ```sh
-~/.platformio/penv/bin/python tools/manager.py --open
+~/.platformio/penv/bin/python tools/manager.py -o
 ```
 
-Default address: `http://127.0.0.1:18765/`. The launcher binds only to loopback. Its browser unlock credential is consumed from the URL fragment and removed; it is not a provider API key. Reloading an unlocked page loses its in-memory credential; run the launcher with `--open` to unlock again. If it is already running, a nonce/HMAC challenge first verifies the existing listener holds our local manager key, then the launcher reopens that service without starting a second server or printing a credential. This is a local development server; LAN/TLS deployment is a separate task.
+Default address: `http://127.0.0.1:18765/`. The launcher binds only to loopback. Its browser unlock credential is consumed from the URL fragment and removed; it is not a provider API key. Reloading an unlocked page loses its in-memory credential; run the launcher with `-o` to unlock again. If it is already running, a nonce/HMAC challenge first verifies the existing listener holds our local manager key, then the launcher reopens that service without starting a second server or printing a credential. This is a local development server; LAN/TLS deployment is a separate task.
 
 For a separate environment, create `.venv-host` and install `backend/requirements.txt`. Dependencies are pinned certifi (the verified CA bundle) and pyserial (USB). The existing portable Python had no default CA file; explicit certifi fixes certificate validation without disabling it.
 
@@ -34,7 +34,7 @@ Defaults: 20 attempts/day (UTC), 4/minute, 256 output tokens; one inference at a
 ## Service boundary
 
 | Route | Required role | Purpose |
-| --- | --- | --- |
+| - | - | - |
 | `POST /v1/chat` | Device or manager | Bounded text request; provider/model chosen on host |
 | `GET /api/status` | Manager | Public settings and attempt count |
 | `POST /api/settings` | Manager | Validate/save private configuration |

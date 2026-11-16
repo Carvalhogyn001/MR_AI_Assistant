@@ -5,7 +5,7 @@ November 14, 2026, America/Los_Angeles
 ## Skill review
 
 | Package | Pinned snapshot | Scope reviewed and used |
-| --- | --- | --- |
+| - | - | - |
 | [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/commit/d643997c82e94742dd3bee43210b0198e8bbba3d) | `d643997c82e94742dd3bee43210b0198e8bbba3d` | Installed only `.claude/skills/ui-ux-pro-max` under `~/.codex/skills` using the pinned GitHub archive. The installed directory matched the reviewed copy. Reviewed its instructions, local catalogs and Python search path. The design and Three.js searches ran with an empty inherited environment and generic product terms. The search reads bundled data and can write design documents when explicitly requested. The npm CLI and plugin hooks were outside the install. |
 | [Taste Skill](https://github.com/Leonxlnx/taste-skill/commit/f6b76575f949707b4e3c37cd86cb44b0b98643e8) | `f6b76575f949707b4e3c37cd86cb44b0b98643e8` | The installed skill matched the upstream skill directory with a recursive comparison. Reviewed its instructions and command entry points. It includes remote photo/icon helpers and browser subprocesses. Used the layout guidance and its local screenshot helper with a separate Chrome profile. |
 
@@ -14,7 +14,7 @@ The reviewed workflows showed no credential collection or unexpected data destin
 ## Provider checks
 
 | Route | Result |
-| --- | --- |
+| - | - |
 | Mock | Live Control Room text round trip. |
 | Ollama text | `gemma4:12b`, `gemma4:e4b`, and `qwen3.6:latest` each returned the requested short reply through the native adapter. |
 | Ollama audio adapters | Synthetic 16 kHz mono PCM reached Gemma 4 12B and received a direct answer. The Qwen and Z-Image audio routes transcribed the synthetic prompt through Gemma. Qwen then answered the resulting text. |
@@ -47,7 +47,7 @@ The host can read display readiness and acknowledged state. Physical swipe direc
 ## Repeatable checks
 
 ```sh
-node --test manager/tests/app.test.cjs
+node manager/tests/app.test.cjs
 PYTHONPATH=backend:. ~/.platformio/penv/bin/python -m unittest discover -s backend/tests
 python3 tools/test_assistant.py
 python3 firmware/assistant/tests/preview_display.py

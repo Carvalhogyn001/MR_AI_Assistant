@@ -23,7 +23,7 @@ Typed prompts, replies, errors and generated PNGs are stored in IndexedDB for th
 The history is a local transcript. The text API still sends one prompt at a time to the selected model. The manager token stays in memory and gets removed from the address bar after launch. The launcher unlocks a fresh or reloaded page, while local history is already visible to that browser profile. Provider keys remain in host-side private settings.
 
 ```sh
-~/.platformio/penv/bin/python tools/manager.py --open
+~/.platformio/penv/bin/python tools/manager.py -o
 ```
 
 ## Device and model states
@@ -38,7 +38,7 @@ Choose **Providers → Ollama · local → Model**, then use **Save & apply**. T
 
 ## Verification
 
-Run `node --test manager/tests/app.test.cjs`. Chrome verified the revised build at 1440, 1024, 768, 390 and 320 px. Checks covered the reduced-motion scene, mouse drag, touch rotation, keyboard rotation, reset, exploded view, tab navigation, theme changes, and restoring and clearing local text and images. A separate Chrome run with WebGL disabled verified the CSS face. The Taste finish gate still reports marketing-page requirements, including a full-screen hero and separate full-screen sections. The workspace keeps chat and the viewer together. The gate also flagged shader terms from the vendored Three.js source and did not credit the fallback. Chrome verified the rendered scene, the CSS face with WebGL disabled, and recovery after deliberate context loss. The browser used fixture responses for chat and device interactions. The live browser rendered the connected Face Lab 0.10.0 board, kept Pause voice accessible, and restored the scene after simulated WebGL context loss.
+Run `node manager/tests/app.test.cjs`. Chrome verified the revised build at 1440, 1024, 768, 390 and 320 px. Checks covered the reduced-motion scene, mouse drag, touch rotation, keyboard rotation, reset, exploded view, tab navigation, theme changes, and restoring and clearing local text and images. A separate Chrome run with WebGL disabled verified the CSS face. The Taste finish gate still reports marketing-page requirements, including a full-screen hero and separate full-screen sections. The workspace keeps chat and the viewer together. The gate also flagged shader terms from the vendored Three.js source and did not credit the fallback. Chrome verified the rendered scene, the CSS face with WebGL disabled, and recovery after deliberate context loss. The browser used fixture responses for chat and device interactions. The live browser rendered the connected Face Lab 0.10.0 board, kept Pause voice accessible, and restored the scene after simulated WebGL context loss.
 
 The security review of UI UX Pro Max and Taste Skill is in [the November 14 audit](SYSTEM-AUDIT-2026-11-14.md).
 

@@ -8,7 +8,7 @@ From the project root:
 
 ```sh
 ~/.platformio/penv/bin/python -m pip install -r backend/requirements.txt
-~/.platformio/penv/bin/python tools/manager.py --open
+~/.platformio/penv/bin/python tools/manager.py -o
 ```
 
 Keep Control Room running on the Mac, connect the Waveshare by USB, and select a configured Gemini connection with its Free-tier confirmation. The Mac arms voice even if the browser is closed. Wait for **WAKE LISTENING**, then say “Hey Mr. Robot” or press and release the green IO16-to-GND button. Speak when **LISTENING** appears. The microphone is on locally while waiting for the wake phrase. Idle audio stays on the Mac.
@@ -36,7 +36,7 @@ The wake model uses the upstream Zipformer English phoneme dictionary. It runs l
 ```sh
 ~/.platformio/penv/bin/python -m pip install -r backend/requirements-wake.txt
 ~/.platformio/penv/bin/python tools/setup_wake_model.py
-~/.platformio/penv/bin/python tools/manager.py --open
+~/.platformio/penv/bin/python tools/manager.py -o
 ```
 
 The installer checks the release archive checksum before extracting the selected model files under ignored `private/wake-model/`. The pinned dependency is optional for tap-to-talk. [Sherpa keyword spotting](https://k2-fsa.github.io/sherpa/onnx/kws/index.html)

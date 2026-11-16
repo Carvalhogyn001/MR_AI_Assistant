@@ -25,15 +25,15 @@ pio device list
 Use the new USB port, compare its USB identity to the physical board, and read current serial output first when available. Before upload, use the installed esptool version to read chip identity and actual flash ID. With the existing PlatformIO esptool 4.11 and **the actual PORT**, the commands are:
 
 ```sh
-~/.platformio/penv/bin/python ~/.platformio/packages/tool-esptoolpy/esptool.py --chip esp32s3 --port PORT chip_id
-~/.platformio/penv/bin/python ~/.platformio/packages/tool-esptoolpy/esptool.py --chip esp32s3 --port PORT flash_id
+~/.platformio/penv/bin/python ~/.platformio/packages/tool-esptoolpy/esptool.py -c esp32s3 -p PORT chip_id
+~/.platformio/penv/bin/python ~/.platformio/packages/tool-esptoolpy/esptool.py -c esp32s3 -p PORT flash_id
 ```
 
 Only after 16 MB is confirmed, save a full backup in ignored private storage. This may include factory settings or credentials: never attach it to the vault or commit it.
 
 ```sh
 mkdir -p private/backups
-~/.platformio/penv/bin/python ~/.platformio/packages/tool-esptoolpy/esptool.py --chip esp32s3 --port PORT read_flash 0x0 0x1000000 private/backups/waveshare-factory-2026-10-29.bin
+~/.platformio/penv/bin/python ~/.platformio/packages/tool-esptoolpy/esptool.py -c esp32s3 -p PORT read_flash 0x0 0x1000000 private/backups/waveshare-factory-2026-10-29.bin
 shasum -a 256 private/backups/waveshare-factory-2026-10-29.bin
 ```
 
@@ -46,7 +46,7 @@ After flash, USB can re-enumerate under a new port. Re-list ports. If connection
 ## Visual tools for future steps
 
 | Tool | Best use here | Verified limit |
-| --- | --- | --- |
+| - | - | - |
 | Obsidian Canvas / Excalidraw | Editable project plan, real-board photos with numbered callouts, one verified wiring step per drawing | Diagrams do not simulate electrical behavior. An editable setup drawing and architecture canvas are supplied. |
 | [Tinkered](https://tinkered.ai/) | Learning breadboards and generic ESP32 circuits | Advertises ESP32 support and a free entry point. Exact 1.75 board, CO5300, PMIC, audio chain and full Muse compatibility not established. |
 | [EnhancedDiode](https://enhancediode.com/) | Breadboard layout and basic circuit concepts | Site advertises SPICE and ATmega328P code simulation; ESP32 picture does not establish ESP32-S3 firmware simulation. Some export features are marked coming soon. |

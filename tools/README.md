@@ -14,4 +14,4 @@ PYTHONPATH=backend python3 -m unittest discover -s backend/tests -v
 ~/.platformio/penv/bin/python tools/device.py card
 ```
 
-`Device` is the reusable USB client. An explicit `--port PORT` precedes the command when needed. Face/brightness change volatile device state; `card` reads controller capacity and boot-sector metadata without mounting or writing. Provider tests use synthetic in-memory responses only; they do not start a server or call paid APIs.
+`Device` is the reusable USB client. An explicit `-p PORT` precedes the command when needed. Face/brightness change volatile device state; `card` reads controller capacity and boot-sector metadata without mounting or writing. Provider tests use synthetic in-memory responses only; they do not start a server or call paid APIs.

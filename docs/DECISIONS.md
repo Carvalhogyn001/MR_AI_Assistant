@@ -220,7 +220,7 @@
 
 - Decision: 2026-11-13. Use the owner's terminal references for color and typography, with an original MR. Robot mascot. Move text chat into the main terminal; keep voice controls shared across tabs and pin Stop in the status strip while voice is active. Default to Dark for new sessions and keep existing appearance preferences. The owner chose blue accents for the controls and mascot.
 - Scope: browser UI only. The launcher, credential storage, host API, USB ownership and firmware are unchanged.
-- Verification: `node --test manager/tests/app.test.cjs` passes; Chromium checks on the local server used synthetic API responses to verify layout at 320–1440 px, keyboard input, themes and shared Stop. See [Control Room interface](CONTROL-ROOM-DESIGN.md).
+- Verification: `node manager/tests/app.test.cjs` passes; Chromium checks on the local server used synthetic API responses to verify layout at 320–1440 px, keyboard input, themes and shared Stop. See [Control Room interface](CONTROL-ROOM-DESIGN.md).
 
 ## ADR032 · Isolate the talk button and move voice to the LAN in stages
 
@@ -243,7 +243,7 @@
 
 - Evidence (2026-11-13). Muse on the owner's Android 17 phone failed to list the gadget with Bluetooth and Developer mode on. The Mac independently detected the advertisement and discovered the pairing service. After the owner enabled system Location, Muse found and paired with the ESP32.
 - Decision. Check system Location first when this phone misses the board during setup. Include this step in the pairing guide.
-- Verification. The owner reported pairing success and `tools/muse.py status --port PORT` confirmed Wi-Fi connected, `paired=true`, link **Online**, and voice **Connected**. The standalone device credential flag stayed false. [Muse pairing guide](MUSE-PAIRING.md)
+- Verification. The owner reported pairing success and `tools/muse.py -p PORT status` confirmed Wi-Fi connected, `paired=true`, link **Online**, and voice **Connected**. The standalone device credential flag stayed false. [Muse pairing guide](MUSE-PAIRING.md)
 
 ## ADR036 · Use IO16 for Muse talk and keep BOOT for pairing
 

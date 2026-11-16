@@ -3,14 +3,14 @@
 Control Room runs an authenticated loopback service with separate provider, settings, usage and USB modules. The owner selected **native Google Gemini first**. Mock, OpenRouter and explicitly configured compatible services remain available; Muse is a separate optional SDK path.
 
 ```sh
-~/.platformio/penv/bin/python tools/manager.py --open
+~/.platformio/penv/bin/python tools/manager.py -o
 PYTHONPATH=backend ~/.platformio/penv/bin/python -m unittest discover -s backend/tests -v
 ```
 
 Run from the project root. Setup, endpoints, private-file locations and limits: [API host setup](../docs/API-HOST-SETUP.md).
 
 | Module | Responsibility |
-| --- | --- |
+| - | - |
 | providers.py | Bounded native Gemini/compatible text adapters; mock; redacted errors |
 | tls.py | Hostname/certificate verification with pinned certifi trust bundle |
 | settings.py | Strict owner configuration; atomic mode 0600 files; public secret redaction |

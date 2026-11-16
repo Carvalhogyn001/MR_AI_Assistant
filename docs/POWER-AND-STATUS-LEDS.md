@@ -21,7 +21,7 @@ Keep the Freenove/LCD wiring separate from the new Waveshare indicators. The sam
 Zoomable SVG · Editable Canvas · Editable Excalidraw
 
 | Actual state | Green LED | Red LED | Meaning |
-| --- | --- | --- | --- |
+| - | - | - | - |
 | Ready / voice off | Off | Off | No question capture or reply playback. |
 | Ambient wake monitoring | Off | Off | Green is not a microphone privacy indicator; the on-screen **WAKE LISTENING** label still shows ambient capture. |
 | Question capture started successfully | On | Off | Speak; green follows capture, not the physical button being down. |
@@ -78,11 +78,5 @@ A verified USB power bank is another possible USB-power source, but it still nee
 ## Verification and editable sources
 
 The owner photo is copied byte-for-byte and SHA-256 recorded. The four SVG/PNG drawings are code-native; their text and layouts were visually inspected, and their SVG/Canvas/Excalidraw data parse. Mirrors live in the Obsidian project alongside a linked power/status-LED note.
-
-```sh
-python3 tools/build_power_guides.py --render
-# Or regenerate all current connection drawings:
-python3 tools/build_visual_guides.py --wiring-only --render
-```
 
 Physical acceptance remains pending: confirmed parts and unpowered circuit checks, measured LED current, green only during question capture, red only during playback, both off after cancel/error, followed by a separately reviewed battery test. No LED/battery wiring, charger changes or battery-powered operation was performed to create this guide.

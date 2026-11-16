@@ -29,7 +29,7 @@ MRR1 9 mic-cancel
 ```
 
 | Command | Allowed values |
-| --- | --- |
+| - | - |
 | `status` | No argument |
 | `card` | No argument; raw card metadata without mount/write/format |
 | `tone` | No argument; one 440 Hz / 400 ms low-level generated speaker test |

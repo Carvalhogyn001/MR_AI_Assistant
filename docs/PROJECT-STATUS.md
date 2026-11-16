@@ -33,7 +33,7 @@ The USB chip identity alone does not identify a board model; here it is corrobor
 ## Implementation and verification
 
 | Work | Actual result |
-| --- | --- |
+| - | - |
 | Isolated Waveshare USB/PSRAM diagnostic | Version2 build **PASS**. Platform 7.0.1 / Arduino 2.0.17; no application library dependencies. Static RAM 18,860 bytes; application 266,529 bytes. |
 | Factory preservation | **COMPLETE**: full 16,777,216-byte read saved under ignored `private/backups/`, file size checked, SHA-256 recorded in a mode 0600 private sidecar. No backup copied into vault. |
 | Custom diagnostic on physical board | **PASS**: version2 uploaded with all write hashes verified. Actual serial reports 16,777,216 flash bytes, 8,388,608 physical PSRAM bytes, 8,386,295 usable PSRAM heap bytes, 65,536-byte buffer PASS, `BASELINE=PASS`, and heartbeats at 5,003/10,003 ms. |
@@ -73,7 +73,7 @@ HEARTBEAT baseline=PASS uptime_ms=5003 free_heap=371108 free_psram=8386295
 HEARTBEAT baseline=PASS uptime_ms=10003 free_heap=371108 free_psram=8386295
 ```
 
-Acceptance command: `pio run -d firmware/waveshare-bringup -t upload --upload-port PORT`, followed by a 115200-baud serial read, lowercase `i` to repeat the report, and observation of two continuing PASS heartbeats. The current session's actual port was identified by enumeration; do not assume its name in a future session. Detailed silicon rev0.2 came from esptool; `sdk_revision=0` is the older SDK field.
+Acceptance command: `PLATFORMIO_UPLOAD_PORT=PORT pio run -d firmware/waveshare-bringup -t upload`, followed by a 115200-baud serial read, lowercase `i` to repeat the report, and observation of two continuing PASS heartbeats. The current session's actual port was identified by enumeration; do not assume its name in a future session. Detailed silicon rev0.2 came from esptool; `sdk_revision=0` is the older SDK field.
 
 At the end of the initial diagnostic slice, these were pending: touch coordinate/hold/multitouch validation, duplex/AEC audio and speech handling, SD filesystem/write/integrity tests, offline commands, Muse build/pairing, authenticated AI service, graphical PC manager, camera network link, power/battery work and enclosure CAD. The October 30 milestone below completes the host service, initial PC manager and Gemini text path. No real tokens, Wi-Fi credentials, recordings or personal SD files were added to documentation.
 
@@ -146,7 +146,7 @@ Successful Control Room generation: “Hello, Mr. Robot, it's a pleasure to meet
 
 Caption metadata acknowledgement, continuing frames/touch readiness and owner pixels pass. Unused caption expiry passed at 60.54 seconds, with frames 816→1416 and caption_provider=none, without restart. No speech-to-Gemini, audio response, camera, autonomous actions, Muse pairing or SD filesystem operation occurred. Optional Muse/IDF source checkouts were downloaded but no Muse build/toolchain installation or flash was performed.
 
-Final launcher acceptance: an existing local service passes the nonce/HMAC identity check, and a wrong local key fails it. This allows --open to reuse the current manager without exposing an unlock credential to an unrelated listener. Final ignored host key/config files retain mode 0600; key values were not printed.
+Final launcher acceptance: an existing local service passes the nonce/HMAC identity check, and a wrong local key fails it. This allows -o to reuse the current manager without exposing an unlock credential to an unrelated listener. Final ignored host key/config files retain mode 0600; key values were not printed.
 
 
 ## Voice-first Muse evaluation and Gemini model update — 2026-10-30

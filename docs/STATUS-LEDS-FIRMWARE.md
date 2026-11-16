@@ -7,7 +7,7 @@ The conditional reservations are **Waveshare IO17 for green** and **IO18 for red
 ## Meaning and lifecycle
 
 | Event | Green | Red |
-| --- | --- | --- |
+| - | - | - |
 | Boot, idle or voice-ready | Off | Off |
 | Ambient wake-word capture | Off | Off |
 | Question capture has successfully started, phase `Recording` | On | Off |

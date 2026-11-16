@@ -5,7 +5,7 @@
 Source: Freenove Wrover `Sketch_03.1_SDMMC_Test`.
 
 | Function | GPIO | Interface |
-| --- | ---: | --- |
+| - | -: | - |
 | SD command | 15 | SD MMC one bit |
 | SD clock | 14 | SD MMC one bit |
 | SD data 0 | 2 | SD MMC one bit |

@@ -7,7 +7,7 @@
 Two integration findings were independently reproduced by new failing regression checks before being fixed. The original nine web tests passed during that reproduction; the two new checks failed.
 
 | Severity | Reproduction and impact | Fix and evidence |
-| --- | --- | --- |
+| - | - | - |
 | P2 | Enable a voice session, then select Device or Connection. Stop lived inside the now-hidden Conversation panel, removing the web cancellation control from that view. | Moved the existing button and handler into the shared device stage. The visibility check traverses hidden ancestors and verifies Stop remains enabled in all three tabs. |
 | P2 | Leave a status response waiting indefinitely, either before headers or during its JSON body. The previous microphone/connection state remained visible, and the in-flight poll prevented recovery polling. | Added a ten-second abort deadline to read-only GETs, covering headers and body. A timeout clears the live-state claim, retains Stop for the last active voice session and releases the poll for recovery. Action POSTs receive no deadline or automatic retry from this change. |
 
@@ -18,8 +18,8 @@ Changed during audit: `manager/app.js`, `manager/index.html`, `manager/style.css
 ## Verification
 
 | Check | Result |
-| --- | --- |
-| `node --check manager/app.js` and `node --test manager/tests/app.test.cjs` | PASS; 11 web regression tests, including both reproduced defects and no deadline on in-flight text POSTs. |
+| - | - |
+| `node -c manager/app.js` and `node manager/tests/app.test.cjs` | PASS; 11 web regression tests, including both reproduced defects and no deadline on in-flight text POSTs. |
 | `python3 tools/test_assistant.py` | PASS; command and audio parser suites under ASan/UBSan. |
 | `python3 firmware/assistant/tests/preview_display.py` | PASS; actual renderer, microphone-label priority, caption bounds, circular text geometry, 12 face/expression combinations under ASan/UBSan. |
 | `~/.platformio/penv/bin/pio run -d firmware/assistant` | PASS; Face Lab 0.9.3, 22,004 static RAM bytes / 416,245 application flash bytes. These are section sizes, not physical capacity or free heap. |
@@ -56,8 +56,8 @@ Source tracing covered the actual microphone, speaker and voice-transport call p
 The breadboard guide has separate resistor-input, LED-anode and LED-cathode nodes: green rows 6/10/12 and red rows 18/22/24, with separate returns joining row 26. Each branch has its own resistor; no rail or cross-gap connection is required. Contact labels and placement are illustrative, with actual part spacing/continuity explicitly pending. The AA drawing requires a suitable regulated power stage and USB source interface; it neither assigns BAT polarity nor treats battery power as a replacement for USB voice data. The project’s proposed 1 kΩ parts are distinguished from the manufacturer’s 220 Ω example and from measured component values. [Freenove LED lesson, rechecked during this audit](https://docs.freenove.com/projects/fnk0047/en/latest/fnk0047/codes/C/1_LED.html)
 
 | Follow-up check | Result |
-| --- | --- |
-| `node --check manager/app.js`; `node --test manager/tests/app.test.cjs` | PASS; 16 tests. |
+| - | - |
+| `node -c manager/app.js`; `node manager/tests/app.test.cjs` | PASS; 16 tests. |
 | `python3 firmware/assistant/tests/test_status_leds.py` | PASS under ASan/UBSan; default build has zero GPIO operations, fake-GPIO opt-in covers phase/activity policy, startup ordering, break-before-make and cleanup. |
 | `python3 tools/test_assistant.py`; `python3 firmware/assistant/tests/preview_display.py` | PASS; command/audio parsers and actual renderer under ASan/UBSan. |
 | `~/.platformio/penv/bin/pio run -d firmware/assistant` | PASS; default-disabled **0.9.4 build**, 22,004 static RAM bytes / 416,689 application flash bytes. No upload. |

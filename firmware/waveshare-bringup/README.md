@@ -15,8 +15,8 @@ pio run -d firmware/waveshare-bringup
 Hardware acceptance, after identifying the physical board and backing up its factory flash:
 
 ```sh
-pio run -d firmware/waveshare-bringup -t upload --upload-port PORT
-pio device monitor --port PORT --baud 115200
+PLATFORMIO_UPLOAD_PORT=PORT pio run -d firmware/waveshare-bringup -t upload
+pio device monitor -p PORT -b 115200
 ```
 
 `PORT` must be the newly detected ESP32-S3 device, not a guessed example. Do not use `erase_flash`. Upload overwrites the running firmware and partition table.

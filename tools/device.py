@@ -143,7 +143,7 @@ class Device:
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--port", help="Explicit USB serial path; otherwise requires exactly one matching USB device")
+    parser.add_argument("-p", "--port", help="Explicit USB serial path; otherwise requires exactly one matching USB device")
     commands = parser.add_subparsers(dest="operation", required=True)
     commands.add_parser("status")
     commands.add_parser("card", help="Read raw SD capacity and boot-sector signature; no mount or writes")

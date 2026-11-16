@@ -19,7 +19,7 @@ Check system **Location** first on the owner's Android phone, then Muse's Nearby
 Public USB status, from the project root:
 
 ```sh
-~/.platformio/penv/bin/python tools/muse.py status --port PORT
+~/.platformio/penv/bin/python tools/muse.py -p PORT status
 ```
 
 It prints the fixed board identity, booleans and allowlisted link/voice states. `paired=false` means Muse account enrollment is unfinished even if Wi-Fi works. `standalone_account_credential_configured` describes the separate Settings token; it can remain false after successful phone Link enrollment. Neither a stored token nor Wi-Fi proves service acceptance. The client preserves USB modem lines/HUPCL; separate hardware checks retained Wi-Fi and advanced uptime 82→85 seconds.
@@ -27,7 +27,7 @@ It prints the fixed board identity, booleans and allowlisted link/voice states. 
 For a fresh phone attempt, start the bounded metadata monitor first:
 
 ```sh
-~/.platformio/penv/bin/python tools/muse.py watch --port PORT --seconds 180
+~/.platformio/penv/bin/python tools/muse.py -p PORT -s 180 watch
 ```
 
 It reports state changes and the firmware's physical-confirmation acknowledgement. It sends only status queries, discards other UART content, and never presses BOOT, resets the board or writes credentials. It stops after the requested 10–600 seconds or Ctrl-C. Use only one serial client at a time.

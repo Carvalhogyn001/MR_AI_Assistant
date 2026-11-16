@@ -38,7 +38,7 @@ def existing_manager(url, token):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port", type=int, default=18765)
-    parser.add_argument("--open", action="store_true", help="Open and unlock the browser; no token appears in logs")
+    parser.add_argument("-o", "--open", action="store_true", help="Open and unlock the browser; no token appears in logs")
     args = parser.parse_args()
     if not 1024 <= args.port <= 65535:
         parser.error("Port must be between 1024 and 65535")

@@ -219,8 +219,8 @@ def serial_action(action, port=None, seconds=120):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("build", "flash", "status", "watch", "provision"))
-    parser.add_argument("--port")
-    parser.add_argument("--seconds", type=int, default=120, help="watch duration, 10–600 seconds")
+    parser.add_argument("-p", "--port")
+    parser.add_argument("-s", "--seconds", type=int, default=120, help="watch duration, 10–600 seconds")
     args = parser.parse_args()
     if not 10 <= args.seconds <= 600:
         parser.error("--seconds must be between 10 and 600")

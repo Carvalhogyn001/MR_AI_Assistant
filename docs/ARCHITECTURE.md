@@ -14,22 +14,21 @@ The current Gemini laptop route supports text and bounded spoken turns. Local wa
 
 The Waveshare is the face and voice of MR. Robot: touch UI, buttons, local feedback, microphones, speaker, card storage and networking. Keep the Freenove with its working camera as a separate optional camera node. Keep the parallel ribbon on Freenove and give each board its own USB connection. The proposed authenticated Wi-Fi path carries a requested still to the Mac. [Connection drawings](BREADBOARD-CAMERA-DISPLAYS.md)
 
-```mermaid
-flowchart LR
-  Person[User: touch or voice] <--> Device[Waveshare: screen, audio, local controls]
-  Device <--> Offline[On-device command recognition: future]
-  Device -. Muse evaluation firmware .-> Muse[Muse remote service]
-  Device <--> Proxy[Mac Control Room: USB audio, captions, local wake detector]
-  Proxy --> Local[Ollama chat and audio on the Mac]
-  Local --> Image[Z-Image from locally transcribed prompts]
-  Proxy <--> API[Gemini first; optional other APIs]
-  Camera[Freenove camera: future LAN link] --> Proxy
+```text
+User: touch or voice ↔ Waveshare: screen, audio, local controls
+Waveshare: screen, audio, local controls ↔ On-device command recognition: future
+Waveshare: screen, audio, local controls → (Muse evaluation firmware) → Muse remote service
+Waveshare: screen, audio, local controls ↔ Mac Control Room: USB audio, captions, local wake detector
+Mac Control Room: USB audio, captions, local wake detector → Ollama chat and audio on the Mac
+Ollama chat and audio on the Mac → Z-Image from locally transcribed prompts
+Mac Control Room: USB audio, captions, local wake detector ↔ Gemini first; optional other APIs
+Freenove camera: future LAN link → Mac Control Room: USB audio, captions, local wake detector
 ```
 
 ## What local means
 
 | Mode | Where inference happens | Connectivity | Current position |
-| --- | --- | --- | --- |
+| - | - | - | - |
 | Offline device | ESP32-S3 | None for supported commands | Feasible candidate: ESP-SR command recognition; not implemented or benchmarked here. |
 | Local computer | Mac or other more capable host | Local Wi-Fi; internet need depends on installed models/services | Route for richer private conversation if a host stays on. Available compute/models have not been inventoried. |
 | Muse | Muse remote infrastructure | Muse account, phone provisioning and internet | SDK supports this board; model weights/offline inference are not supplied. |

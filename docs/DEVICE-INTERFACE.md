@@ -15,7 +15,7 @@ Rendered state sheet (editable SVG) uses the actual `face_renderer.cpp` geometry
 ## What the screen tells you
 
 | Device state | Visual and action | Microphone meaning |
-| --- | --- | --- |
+| - | - | - |
 | Idle | Familiar robot eyes; tap changes face | Off; voice not armed. Does not claim that the Mac is disconnected. |
 | Ready | Eyes; READY TO TALK; tap begins the question | Off until a tap or optional button press. |
 | Wake | Eyes, coral dot, WAKE LISTENING; say “Hey Mr. Robot” or tap | On; the existing Mac-local wake detector is active. Stop wake mode in Control Room. |

@@ -6,7 +6,7 @@ Face Lab **0.10.0** receives a 300 × 300 RGB565 preview of Z-Image Turbo output
 Choose **Providers → Ollama · local**, pick a model from the menu, and click **Save & apply**. Use **Other installed model** to enter another tag from `ollama list`. Keep the Waveshare connected by USB. Ollama runs on the Mac. Face Lab shows typed chat replies as captions and shows the Thinking indicator while the model runs.
 
 | Model | Input and result |
-| --- | --- |
+| - | - |
 | `gemma4:12b` | Type a question or tap the green button, wait for **LISTENING**, then speak. The answer appears on the ESP32. The OpenAI-compatible audio request uses `reasoning_effort: none`, and local capture allows about one second of silence between sentences. |
 | `gemma4:e4b` | Typed chat and text replies on the round display. |
 | `qwen3.6:latest` | Typed chat or a green-button question. Gemma 4 12B transcribes the spoken question locally before Qwen answers in text. A direct typed test answered the Proxima Centauri question after a 14-second cold load. |
