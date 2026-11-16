@@ -1,0 +1,18 @@
+# Evaluation profile; load after the pinned SDK's non-C s3n overlay.
+# Credentials are provisioned into NVS over USB, never compiled into binaries.
+CONFIG_GADGET_SDK_TOKEN=""
+CONFIG_HOMEHUB_WIFI_SSID=""
+CONFIG_HOMEHUB_WIFI_PASSWORD=""
+CONFIG_MUSE_REALTIME_VOICE=y
+CONFIG_MUSE_REALTIME_VOICE_IDLE_S=30
+CONFIG_MUSE_REALTIME_VOICE_MAX_S=180
+# CONFIG_MUSE_REALTIME_VOICE_GREETING is not set
+# Keep this voice evaluation independent of automatic updates and LAN tunnelling.
+# CONFIG_HOMEHUB_OTA_ENABLED is not set
+# CONFIG_HOMEHUB_TUNNEL is not set
+# CONFIG_HOMEHUB_BLE_COMMANDS is not set
+# CONFIG_HOMEHUB_PAIRING_EFUSE_AUTH is not set
+# CONFIG_SECURE_BOOT is not set
+# CONFIG_SECURE_FLASH_ENC_ENABLED is not set
+# CONFIG_HOMEHUB_NVS_ENCRYPTION is not set
+# CONFIG_NVS_ENCRYPTION is not set

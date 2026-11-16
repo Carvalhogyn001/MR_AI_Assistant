@@ -1,0 +1,65 @@
+diff --git a/esp32/main/muse_glue.c b/esp32/main/muse_glue.c
+index 0c74b08..5831f14 100644
+--- a/esp32/main/muse_glue.c
++++ b/esp32/main/muse_glue.c
+@@ -22,6 +22,7 @@
+ #include "esp_log.h"
+ #include "esp_system.h"
+ #include "esp_netif.h"
++#include "esp_ota_ops.h"
+ #include "esp_timer.h"
+ #include "esp_wifi.h"
+ #include "freertos/FreeRTOS.h"
+@@ -643,13 +644,52 @@ static void boot_task(void *arg) {
+     vTaskDelete(NULL);
+ }
+ 
++#if CONFIG_MUSE_BOARD_WAVESHARE_S3_175
++static void switch_to_face_lab(void *arg)
++{
++    (void)arg;
++    const esp_partition_t *target = esp_partition_find_first(
++        ESP_PARTITION_TYPE_APP, ESP_PARTITION_SUBTYPE_APP_OTA_1, NULL);
++    esp_app_desc_t description = {0};
++    muse_mode_t mode = muse_state_mode(NULL);
++    if ((mode != MUSE_MODE_IDLE && mode != MUSE_MODE_ERROR) ||
++        !target || target->address != 0x420000 ||
++        esp_ota_get_partition_description(target, &description) != ESP_OK ||
++        strcmp(description.project_name, "arduino-lib-builder") != 0 ||
++        esp_ota_set_boot_partition(target) != ESP_OK) {
++        printf("@boot error\n");
++        fflush(stdout);
++        vTaskDelete(NULL);
++        return;
++    }
++    printf("@boot ok\n");
++    fflush(stdout);
++    vTaskDelay(pdMS_TO_TICKS(100));
++    esp_restart();
++}
++
++static bool mr_robot_console_command(const char *line)
++{
++    if (strcmp(line, "boot=face-lab") != 0) return sdk_token_console_command(line);
++    if (xTaskCreate(switch_to_face_lab, "boot_face_lab", 10240, NULL, 5, NULL) != pdPASS) {
++        printf("@boot error\n");
++        fflush(stdout);
++    }
++    return true;
++}
++#endif
++
+ void muse_glue_start(void) {
+     // First, before Link's Wi-Fi, BLE and tunnel and Muse's display take and
+     // fragment internal RAM: the CPU's light-sleep retention memory.
+     muse_input_power_init();
+     s_ready = xEventGroupCreate();
+     muse_link_register(&s_ops);
++#if CONFIG_MUSE_BOARD_WAVESHARE_S3_175
++    muse_input_set_console_hook(mr_robot_console_command);
++#else
+     muse_input_set_console_hook(sdk_token_console_command);
++#endif
+     muse_ble_set_name(identity_ble_name());
+     ble_companion_t companion = {
+         .svcs = muse_ble_services(),

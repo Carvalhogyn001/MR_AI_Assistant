@@ -1,0 +1,8 @@
+{
+  "name": "MRRobot-ES8311",
+  "version": "0.1.0",
+  "description": "Pinned Waveshare/Espressif ES8311 driver, Arduino2 compatibility adapter",
+  "license": "Apache-2.0",
+  "frameworks": "arduino",
+  "platforms": "espressif32"
+}

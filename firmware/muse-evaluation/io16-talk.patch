@@ -1,0 +1,128 @@
+diff --git a/esp32/components/muse/boards/board_waveshare_s3_175c.c b/esp32/components/muse/boards/board_waveshare_s3_175c.c
+index 55214e5..b6399d3 100644
+--- a/esp32/components/muse/boards/board_waveshare_s3_175c.c
++++ b/esp32/components/muse/boards/board_waveshare_s3_175c.c
+@@ -23,7 +23,8 @@
+  * The ESP32-S3-Touch-AMOLED-1.75 (CONFIG_MUSE_BOARD_WAVESHARE_S3_175) runs
+  * this driver too. Its BSP moves the panel and touch resets to GPIO 39 and 40
+  * and MCLK to 42. GPIO 1 to 3 go to its SD slot, so PWR is read from the PMU's
+- * key latch, and BOOT talks: held long, PWR makes the PMU cut power.
++ * key latch. BOOT confirms pairing, and the external IO16 switch talks.
++ * Held long, PWR makes the PMU cut power.
+  */
+ #include "bsp/display.h"
+ #include "bsp/esp-bsp.h"
+@@ -38,8 +39,10 @@
+ 
+ #include "muse_board.h"
+ #include "muse_lcd_bands.h"
++#include "muse_link.h"
+ #include "muse_mem.h"
+ #include "muse_pmu.h"
++#include "muse_state.h"
+ 
+ static const char *TAG = "board";
+ 
+@@ -55,7 +58,9 @@ static const char *TAG = "board";
+ static esp_lcd_panel_io_handle_t s_io;
+ static esp_lcd_touch_handle_t s_tp;
+ static muse_gpio_button_t s_boot;
+-#if !CONFIG_MUSE_BOARD_WAVESHARE_S3_175
++#if CONFIG_MUSE_BOARD_WAVESHARE_S3_175
++static muse_gpio_button_t s_green;
++#else
+ static muse_gpio_button_t s_pwr;
+ #endif
+ 
+@@ -64,6 +69,7 @@ static esp_err_t init(void)
+     ESP_RETURN_ON_ERROR(bsp_i2c_init(), TAG, "i2c init");
+     ESP_RETURN_ON_ERROR(muse_gpio_button_init(&s_boot, GPIO_NUM_0), TAG, "boot button");
+ #if CONFIG_MUSE_BOARD_WAVESHARE_S3_175
++    ESP_RETURN_ON_ERROR(muse_gpio_button_init(&s_green, GPIO_NUM_16), TAG, "IO16 talk button");
+     /* Only the PMU sees PWR: latch its edges for poll_buttons(). */
+     esp_err_t err = muse_pmu_init(bsp_i2c_get_handle(), true);
+ #else
+@@ -223,7 +229,10 @@ static void set_mic_gain(esp_codec_dev_handle_t mic, int db)
+ static unsigned poll_buttons(void)
+ {
+     static unsigned tick;
+-    unsigned ev = muse_gpio_button_poll(&s_boot);   /* BOOT talks, PWR is aux */
++    if ((muse_gpio_button_poll(&s_boot) & MUSE_BTN_TALK_PRESS) && muse_link_talk_press()) {
++        muse_state_poke();
++    }
++    unsigned ev = muse_gpio_button_poll(&s_green);
+     if (tick++ % PMU_KEY_EVERY == 0) {
+         unsigned key = muse_pmu_poll_key();
+         ev |= (key & MUSE_PMU_KEY_PRESS ? MUSE_BTN_AUX_PRESS : 0) |
+@@ -255,7 +264,7 @@ static const muse_board_t s_board = {
+     .touch = true,
+     .diagonal_in = 1.75f,
+ #if CONFIG_MUSE_BOARD_WAVESHARE_S3_175
+-    .talk_button = "boot",
++    .talk_button = "green",
+     .aux_button = "pwr",
+     /* The same side buttons as the 1.75C, but BOOT (below) talks. */
+     .talk_hint = { LV_ALIGN_CENTER, 153, 129 },
+diff --git a/esp32/components/muse/muse_input.c b/esp32/components/muse/muse_input.c
+index 0836db9..d73998d 100644
+--- a/esp32/components/muse/muse_input.c
++++ b/esp32/components/muse/muse_input.c
+@@ -298,11 +298,14 @@ static void talk_button(unsigned ev)
+         released = false;
+     }
+     if (!talk_down && !swallow && (ev & MUSE_BTN_TALK_PRESS)) {
++#if !CONFIG_MUSE_BOARD_WAVESHARE_S3_175
+         if (muse_link_talk_press()) {
+             /* Confirmed a Muse app pairing (Link's setup button). */
+             muse_state_poke();
+             swallow = true;
+-        } else if (muse_state_asleep()) {
++        } else
++#endif
++        if (muse_state_asleep()) {
+             set_asleep(false, muse_board->talk_button);
+             post(MUSE_PTT_DOWN, true);
+             talk_down = true;
+diff --git a/esp32/components/muse/muse_settings_ui.c b/esp32/components/muse/muse_settings_ui.c
+index 3eeaf3e..7c98556 100644
+--- a/esp32/components/muse/muse_settings_ui.c
++++ b/esp32/components/muse/muse_settings_ui.c
+@@ -1423,7 +1423,11 @@ static void build_power_page(lv_obj_t *tile)
+     button(list, LV_SYMBOL_POWER "  Power off", COLOR_DANGER, on_power_off, NULL);
+     button(list, "Cancel", COLOR_TEXT, on_back, NULL);
+     char text[128];
++#if CONFIG_MUSE_BOARD_WAVESHARE_S3_175
++    const char *power = "PWR";
++#else
+     const char *power = muse_board->power_button ? muse_board->power_button : muse_board->talk_button;
++#endif
+     const char *sleep = muse_board->power_button ? muse_board->power_button : muse_board->aux_button;
+     if (sleep) {
+         snprintf(text, sizeof(text), "Press the %s button to turn it back on. To just turn the screen off, press the %s button.",
+diff --git a/esp32/components/muse/muse_ui.c b/esp32/components/muse/muse_ui.c
+index 4b22701..b91474e 100644
+--- a/esp32/components/muse/muse_ui.c
++++ b/esp32/components/muse/muse_ui.c
+@@ -1413,7 +1413,7 @@ static void update_chrome(float now)
+         lv_label_set_text(s_name_lbl, shown);
+     }
+ 
+-    /* The same card asks for the talk button when the Muse app pairs. */
++    /* The same card asks for physical confirmation when the Muse app pairs. */
+     bool confirm = !b.passkey && muse_link_state() == MUSE_LINK_CONFIRM;
+     if (b.passkey || confirm) {
+         char code[24], hint[40];
+@@ -1423,7 +1423,12 @@ static void update_chrome(float now)
+                 strlcpy(hint, "Tap to confirm pairing", sizeof(hint));
+             } else {
+                 strlcpy(code, s_small ? "Press" : "Press button", sizeof(code));
+-                snprintf(hint, sizeof(hint), s_small ? "%s button" : "Press the %s button", muse_board->talk_button);
++#if CONFIG_MUSE_BOARD_WAVESHARE_S3_175
++                const char *pairing_button = "BOOT";
++#else
++                const char *pairing_button = muse_board->talk_button;
++#endif
++                snprintf(hint, sizeof(hint), s_small ? "%s button" : "Press the %s button", pairing_button);
+             }
+         } else {
+             snprintf(code, sizeof(code), "%06lu", (unsigned long)b.passkey);

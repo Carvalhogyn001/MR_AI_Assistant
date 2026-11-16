@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-type="software">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="page-type" content="software">
+  <meta name="site-kind" content="software">
+  <title>MR. Robot · Control Room</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/history.js" defer></script>
+  <script src="/app.js" defer></script>
+  <script src="/robot-scene.js" type="module"></script>
+</head>
+<body>
+<a class="skip-link" href="#workspace">Skip to controls</a>
+<div class="app-shell">
+  <header class="masthead">
+    <div class="lockup">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i></span>
+      <span class="brand">MR. ROBOT</span>
+    </div>
+    <div id="controlTabs" class="tabs" role="tablist" aria-label="Control Room sections" aria-orientation="horizontal">
+      <button id="tab-conversation" role="tab" aria-controls="panel-conversation" aria-selected="true" tabindex="0" data-panel="conversation">Conversation</button>
+      <button id="tab-device" role="tab" aria-controls="panel-device" aria-selected="false" tabindex="-1" data-panel="device">Device</button>
+      <button id="tab-connection" role="tab" aria-controls="panel-connection" aria-selected="false" tabindex="-1" data-panel="connection">Providers</button>
+    </div>
+    <div class="masthead-tools">
+      <label class="theme-label" for="themeSelect">Appearance</label>
+      <select id="themeSelect" aria-describedby="themeDescription"><option value="dark">Dark</option><option value="light">Light</option><option value="system">System</option></select>
+      <span id="themeDescription" class="sr-only">Light appearance</span>
+    </div>
+  </header>
+  <main class="workspace" id="workspace" tabindex="-1">
+    <div class="control-pane">
+      <header class="page-heading" data-enter>
+        <h1>Control room</h1>
+        <div class="notice-line"><span class="notice-prefix" aria-hidden="true"></span><div id="notice" class="notice" role="status" aria-live="polite">Connecting to your local manager…</div><button id="voiceStop" type="button" class="stop" hidden>Pause voice</button></div>
+      </header>
+        <section id="panel-conversation" class="panel conversation" role="tabpanel" aria-labelledby="tab-conversation">
+          <div class="section-heading transcript-heading">
+            <div><h2>Conversation</h2><p id="historyStatus" class="history-status" role="status">Saved in this browser</p></div>
+            <div class="chat-options"><span id="chatMode" class="quiet-label">Local</span><button id="clearHistory" type="button" class="secondary" hidden>Clear history</button></div>
+          </div>
+          <div id="messages" role="log" aria-label="Text conversation" aria-live="polite" aria-relevant="additions text">
+            <div class="empty-chat" id="emptyChat"><span class="empty-mark" aria-hidden="true"><i></i><i></i></span><p>Start a conversation</p></div>
+          </div>
+          <form id="chatForm"><div class="compose-field"><label for="prompt">Message</label><textarea id="prompt" rows="1" maxlength="4096" placeholder="Message Mr. Robot…" aria-describedby="textHelp sendShortcut" required></textarea></div><button id="send" type="submit" aria-label="Send message" aria-keyshortcuts="Meta+Enter Control+Enter">Send <span aria-hidden="true">↑</span></button></form>
+          <div class="composer-foot"><p class="composer-note" id="textHelp">Each message is a separate request.</p><span id="sendShortcut"><kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>Enter</kbd> to send</span></div>
+        </section>
+      <section id="panel-device" class="panel" role="tabpanel" aria-labelledby="tab-device" hidden>
+        <div class="section-heading"><div><h2>Device controls</h2></div><span class="quiet-label">WAVESHARE 1.75″</span></div>
+        <p class="body-copy">Connect over USB to change the board’s face, expression, brightness or screen.</p>
+        <div class="usb"><label for="ports">USB connection</label><div class="connection-row"><select id="ports"><option value="">Connect the Waveshare with a USB data cable</option></select><button id="connect" type="button">Connect</button><button id="disconnect" type="button" class="secondary" hidden>Disconnect</button></div><p id="usbHelp" class="muted">Use the board’s USB data connection to your Mac.</p></div>
+        <fieldset id="appearanceControls" class="appearance"><legend>Appearance</legend>
+          <div class="faces" role="group" aria-label="Face style"><button type="button" data-face="classic" class="selected" aria-pressed="true"><span class="mini-face classic" aria-hidden="true"><i></i><i></i></span>Classic</button><button type="button" data-face="pixel" aria-pressed="false"><span class="mini-face pixel" aria-hidden="true"><i></i><i></i></span>Pixel</button><button type="button" data-face="orbit" aria-pressed="false"><span class="mini-face orbit" aria-hidden="true"><i></i><i></i></span>Orbit</button></div>
+          <div class="formgrid"><label>Expression<select id="expression"><option value="neutral">Neutral</option><option value="happy">Happy</option><option value="curious">Curious</option><option value="sleepy">Sleepy</option><option value="surprised">Surprised</option><option value="wink">Wink</option><option value="excited">Excited</option><option value="concerned">Concerned</option><option value="squint" data-new-expression>Side-eye</option><option value="blush" data-new-expression>Blush</option><option value="dizzy" data-new-expression>Dizzy</option></select></label><label class="sliderlabel">Brightness <output id="brightnessValue" for="brightness">96</output><input id="brightness" type="range" min="16" max="160" value="96"></label></div>
+          <label id="screenLabel" hidden>Round display screen <select id="boardScreen"><option value="face">Face</option><option value="settings">Settings</option><option value="status">Status</option><option value="gallery">Gallery</option></select></label>
+          <p class="muted">The preview shows the selected face and voice state.</p>
+        </fieldset>
+        <details class="hardware-details"><summary>Hardware checks</summary><div class="actions"><button type="button" data-command="tone" class="secondary">Speaker beep</button><button type="button" data-command="mic-arm" class="secondary">Arm microphone test</button><button type="button" data-command="mic-cancel" class="secondary">Cancel pending test</button></div><p class="muted">The microphone test waits for a screen tap, then measures levels for four seconds. Pause voice before running a hardware check.</p><pre id="diagnostics" aria-label="Device diagnostics">Connect USB to read firmware and hardware state.</pre></details>
+      </section>
+      <section id="panel-connection" class="panel" role="tabpanel" aria-labelledby="tab-connection" hidden>
+        <div class="section-heading"><div><h2>Provider settings</h2></div></div>
+        <p class="body-copy" id="providerDeviceState" role="status">Checking device firmware…</p>
+        <form id="settingsForm"><fieldset id="providerFields">
+          <div class="formgrid"><label>Provider<select id="provider"><option value="mock">Mock · local check</option><option value="gemini">Google Gemini</option><option value="ollama">Ollama · local</option><option value="muse">Meta Muse</option><option value="openrouter">OpenRouter</option><option value="compatible">Compatible API / local model</option></select></label><label id="textModelLabel"><span id="customModelLabel">Model</span><input id="model" value="fixture" maxlength="128" list="textModels" required><datalist id="textModels"></datalist></label>
+            <label id="ollamaModelLabel" hidden>Model<select id="ollamaModel" aria-describedby="ollamaModelHint" disabled>
+              <option value="gemma4:12b">Gemma 4 12B · chat and voice</option>
+              <option value="gemma4:e4b">Gemma 4 E4B · chat</option>
+              <option value="qwen3.6:latest">Qwen 3.6 · chat and voice</option>
+              <option value="x/z-image-turbo:latest">Z-Image Turbo · image generation</option>
+              <option value="custom">Other installed model…</option>
+            </select></label></div>
+          <label id="baseLabel" hidden>API base URL<input id="baseUrl" type="url" placeholder="http://127.0.0.1:1234/v1"></label>
+          <label id="keyLabel" hidden>API key <span id="keyState"></span><input id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="Enter privately here" maxlength="8192"></label>
+          <div id="ollamaGuide" class="guide" hidden><p id="ollamaModelHint"></p></div>
+          <div id="museGuide" class="guide" hidden><p>Tap the green button to start or end a live call. Hold it while speaking, then release to send a voice note and read the answer.</p></div>
+          <div id="mockGuide" class="guide"><p>Mock returns a local fixture. It does not contact an AI service or enable voice.</p></div>
+          <div id="geminiGuide" class="guide" hidden><p><a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">Open Google AI Studio ↗</a></p><p>Check this key’s project tier and quota in AI Studio. Free-tier prompts may be used to improve Google’s products. The text model above and Live voice use separate routes.</p><label class="check"><input id="geminiFree" type="checkbox">I checked that this key’s project is on the Free tier.</label><p class="muted">The app cannot inspect Google’s billing plan. It never enables billing or automatically switches models.</p></div>
+          <div id="remoteGuide" class="guide" hidden><label class="check"><input id="budgetConfirmed" type="checkbox">I configured a provider-side spending cap for this project key.</label><label>Maximum key spending cap (USD)<input id="budget" type="number" min="0.01" max="100" step="0.01" value="1"></label><p class="muted">OpenRouter’s cap is checked before each request; include BYOK in that limit and use an inference key. Compatible services need their own billing controls.</p></div>
+          <details class="limits-details"><summary>Request limits</summary><div class="formgrid limits"><label>Attempts per day<input id="daily" type="number" min="1" max="500" value="20" required></label><label>Per minute<input id="minute" type="number" min="1" max="10" value="4" required></label><label>Reply tokens<input id="tokens" type="number" min="16" max="512" value="256" required></label></div></details>
+          <div class="save-row"><button type="submit" id="save">Save &amp; apply</button><span id="settingsBadge" class="quiet-label">SAVED ON THIS MAC</span></div>
+        </fieldset><p class="muted" id="settingsState">Changing between Muse and Face Lab restarts the board automatically over USB.</p></form>
+      </section>
+      <dl class="statusbar" aria-label="Connection summary">
+        <div><dt><span class="status-dot" id="connectionDot" aria-hidden="true"></span> Device</dt><dd id="deviceStatus">Checking…</dd></div>
+        <div><dt>Provider</dt><dd id="providerStatus">Checking…</dd></div>
+        <div><dt>Requests <span class="status-unit">/ UTC</span></dt><dd id="usageStatus">—</dd></div>
+      </dl>
+    </div>
+    <aside class="device-stage" aria-label="Companion and voice controls">
+      <div class="stage-heading">
+        <h2>Mr. Robot</h2>
+        <span id="previewLabel">Preview</span>
+      </div>
+      <div class="stage-screen" id="robotStage">
+        <canvas id="robotCanvas" aria-hidden="true"></canvas>
+        <span id="activePart" class="active-part" aria-hidden="true" hidden></span>
+        <div id="facePreview" class="face pixel neutral" data-state="idle" role="img" aria-label="Pixel robot face preview. Voice is off.">
+          <div class="eyes" aria-hidden="true"><i></i><i></i></div><div class="mouth" aria-hidden="true"></div>
+          <div class="activity-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="activity-dots" aria-hidden="true"><i></i><i></i><i></i></div><span class="face-error" aria-hidden="true">!</span>
+        </div>
+        <div class="scene-controls" id="sceneControls" hidden>
+          <div class="scene-buttons" role="group" aria-label="Robot view">
+            <button id="explodeRobot" type="button" aria-pressed="false" aria-controls="partsInspector">Exploded view</button>
+            <button id="rotateRobot" type="button" aria-label="Rotate robot view" title="Rotate view">↻</button>
+            <button id="resetRobot" type="button" aria-label="Reset robot view" title="Reset view">↶</button>
+          </div>
+          <span class="orbit-hint" id="orbitHint" aria-hidden="true">Drag to rotate</span>
+        </div>
+      </div>
+      <section id="partsInspector" class="parts-inspector" aria-labelledby="partsHeading" hidden>
+        <h3 id="partsHeading">Waveshare ESP32-S3 · Parts</h3>
+        <div id="partOptions" class="part-options" role="group" aria-label="Choose a component"></div>
+        <div class="part-detail" aria-live="polite" aria-atomic="true">
+          <h4 id="partTitle"></h4>
+          <p id="partDescription"></p>
+        </div>
+      </section>
+      <div class="stage-caption">
+        <div class="scene-readout"><span id="faceMode">Preview</span><span id="faceHint" hidden></span></div>
+        <div class="stage-status">
+          <div><h3 id="companionState">Ready when you are</h3><p id="companionHint">Connect the board to bring Mr. Robot online.</p></div>
+          <div class="mic-readout"><span class="state-marker" id="stateMarker" aria-hidden="true"></span><span id="micState">Voice is off</span></div>
+        </div>
+      </div>
+      <div class="voice-panel">
+        <div class="voice-heading">
+          <h3 id="voiceHeading">Voice controls</h3><span id="voiceCount" class="quiet-label" hidden>0 replies</span>
+          <div class="voice-actions"><button id="voiceResume" type="button" class="secondary" hidden>Resume voice</button></div>
+        </div>
+        <p id="voiceStatus" class="body-copy" role="status">Gemini voice arms automatically when the board connects.</p>
+        <p id="voiceHelp" class="muted">Connect USB and configure Gemini to use voice.</p>
+        <details class="voice-details"><summary>How voice works</summary><p id="voiceInstructions">Keep the Mac and USB connected for local voice controls.</p></details>
+      </div>
+    </aside>
+  </main>
+</div>
+</body>
+</html>
